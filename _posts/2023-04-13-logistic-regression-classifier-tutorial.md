@@ -394,7 +394,7 @@ df.shape
 
 
 ```python
-# preview the dataset
+# 데이터 세트 
 
 df.head()
 ```
@@ -582,13 +582,10 @@ Index(['Date', 'Location', 'MinTemp', 'MaxTemp', 'Rainfall', 'Evaporation',
        'Temp3pm', 'RainToday', 'RISK_MM', 'RainTomorrow'],
       dtype='object')
 </pre>
-### Drop  RISK_MM variable
+### RISK_MM 변수 삭제
 
 
-
-It is given in the dataset description, that we should drop the `RISK_MM` feature variable from the dataset description. So, we 
-
-should drop it as follows-
+데이터 집합 설명에서 RISK_MM 기능 변수를 데이터 집합 설명에서 삭제해야 합니다. 따라서 다음과 같이 삭제해야 합니다.
 
 
 
@@ -598,7 +595,7 @@ df.drop(['RISK_MM'], axis=1, inplace=True)
 
 
 ```python
-# view summary of dataset
+# 데이터 세트 요약 보기
 
 df.info()
 ```
@@ -633,40 +630,38 @@ RainTomorrow     142193 non-null object
 dtypes: float64(16), object(7)
 memory usage: 25.0+ MB
 </pre>
-### Types of variables
+### 변수 유형
 
 
 
 
 
-In this section, I segregate the dataset into categorical and numerical variables. There are a mixture of categorical and numerical variables in the dataset. Categorical variables have data type object. Numerical variables have data type float64.
+이 섹션에서는 데이터 집합을 범주형 변수와 숫자형 변수로 분리합니다. 데이터 집합에는 범주형 변수와 숫자형 변수가 혼합되어 있습니다. 범주형 변수는 데이터 유형이 객체입니다. 숫자 변수는 데이터 유형이 float64입니다.
+
+우선 범주형 변수를 찾아보겠습니다.
 
 
 
-
-
-First of all, I will find categorical variables.
 
 
 
 ```python
-# find categorical variables
+# 범주형 변수 찾기
 
 categorical = [var for var in df.columns if df[var].dtype=='O']
 
-print('There are {} categorical variables\n'.format(len(categorical)))
+print('{} 범주형 변수가 있습니다\n'.format(len(categorical)))
 
-print('The categorical variables are :', categorical)
+print('범주형변수는 :', categorical)
 ```
 
 <pre>
-There are 7 categorical variables
-
-The categorical variables are : ['Date', 'Location', 'WindGustDir', 'WindDir9am', 'WindDir3pm', 'RainToday', 'RainTomorrow']
+7가지 범주형 변수가 있습니다.
+범주형 변수는 : ['Date', 'Location', 'WindGustDir', 'WindDir9am', 'WindDir3pm', 'RainToday', 'RainTomorrow']
 </pre>
 
 ```python
-# view the categorical variables
+# 범주형 변수 기보기
 
 df[categorical].head()
 ```
@@ -754,51 +749,48 @@ df[categorical].head()
 </div>
 
 
-### Summary of categorical variables
+### 범주형 변수 요약
 
 
 
 
 
-- There is a date variable. It is denoted by `Date` column.
+- 날짜 변수가 있습니다. 날짜 열로 표시됩니다.
+
+
+
+- 6개의 범주형 변수가 있습니다.  이것들은 `Location`, `WindGustDir`, `WindDir9am`, `WindDir3pm`, `RainToday` 그리고 `RainTomorrow`입니다.
 
 
 
 
 
-- There are 6 categorical variables. These are given by `Location`, `WindGustDir`, `WindDir9am`, `WindDir3pm`, `RainToday` and  `RainTomorrow`.
+- 두 개의 이진 범주형 변수인 RainToday 와 RainTomorrow 가 있습니다
 
 
 
 
 
-- There are two binary categorical variables - `RainToday` and  `RainTomorrow`.
+- `RainTomorrow`가 대상 변수입니다.
+
+
+## 범주형 변수 내에서 문제 탐색
 
 
 
 
 
-- `RainTomorrow` is the target variable.
-
-
-## Explore problems within categorical variables
+먼저 범주형 변수를 살펴보겠습니다.
 
 
 
 
-
-First, I will explore the categorical variables.
-
-
-
-
-
-### Missing values in categorical variables
+### 범주형 변수의 누락된 값
 
 
 
 ```python
-# check missing values in categorical variables
+# 범주형 변수에서 누락된 값 확인
 
 df[categorical].isnull().sum()
 ```
@@ -815,7 +807,7 @@ dtype: int64
 </pre>
 
 ```python
-# print categorical variables containing missing values
+# 결측값이 포함된 범주형 변수 인쇄
 
 cat1 = [var for var in categorical if df[var].isnull().sum()!=0]
 
@@ -829,21 +821,20 @@ WindDir3pm      3778
 RainToday       1406
 dtype: int64
 </pre>
-We can see that there are only 4 categorical variables in the dataset which contains missing values. These are `WindGustDir`, `WindDir9am`, `WindDir3pm` and `RainToday`.
+데이터 집합에 결측값이 포함된 범주형 변수가 4개만 있음을 알 수 있습니다. WindGustDir , WindDir9am , WindDir3pm 및 RainToday 입니다.
 
 
-### Frequency counts of categorical variables
+### 범주형 변수의 빈도 수
 
 
 
 
-
-Now, I will check the frequency counts of categorical variables.
+이제 범주형 변수의 빈도 수를 확인해 보겠습니다.
 
 
 
 ```python
-# view frequency of categorical variables
+# 범주형 변수의 보기 빈도
 
 for var in categorical: 
     
@@ -973,7 +964,7 @@ Name: RainTomorrow, dtype: int64
 </pre>
 
 ```python
-# view frequency distribution of categorical variables
+# 범주형 변수의 빈도 분포 보기
 
 for var in categorical: 
     
@@ -1101,18 +1092,16 @@ No     0.775819
 Yes    0.224181
 Name: RainTomorrow, dtype: float64
 </pre>
-### Number of labels: cardinality
+### 레이블 수: 카디널리티
 
 
 
 
-
-The number of labels within a categorical variable is known as **cardinality**. A high number of labels within a variable is known as **high cardinality**. High cardinality may pose some serious problems in the machine learning model. So, I will check for high cardinality.
-
+범주형 변수 내의 레이블 수를 **cardinality**라고 합니다. 변수 내의 레이블 수가 많으면 **high cardinality**라고 합니다. 높은 카디널리티는 머신 러닝 모델에서 몇 가지 심각한 문제를 일으킬 수 있습니다. 따라서 높은 카디널리티를 확인해 보겠습니다.
 
 
 ```python
-# check for cardinality in categorical variables
+# 범주형 변수의 카디널리티 확인
 
 for var in categorical:
     
@@ -1128,16 +1117,12 @@ WindDir3pm  contains  17  labels
 RainToday  contains  3  labels
 RainTomorrow  contains  2  labels
 </pre>
-We can see that there is a `Date` variable which needs to be preprocessed. I will do preprocessing in the following section.
+전처리가 필요한 Date 변수가 있음을 알 수 있습니다. 다음 섹션에서 전처리를 수행하겠습니다.
+
+다른 모든 변수는 상대적으로 적은 수의 변수를 포함합니다
 
 
-
-
-
-All the other variables contain relatively smaller number of variables.
-
-
-### Feature Engineering of Date Variable
+### 날짜 변수의 기능 엔지니어링
 
 
 
@@ -1148,7 +1133,7 @@ df['Date'].dtypes
 <pre>
 dtype('O')
 </pre>
-We can see that the data type of `Date` variable is object. I will parse the date currently coded as object into datetime format.
+＊＊Date＊＊ 변수의 데이터 유형이 객체임을 알 수 있습니다. 현재 객체로 코딩된 날짜를 날짜/시간 형식으로 파싱하겠습니다.
 
 
 
