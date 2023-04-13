@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "jupyter notebook 변환하기!"
+title:  "Logistic Regression Classifier"
 categories: coding
 tag: [python, blog, jekyll]
 toc: true
@@ -81,325 +81,263 @@ author_profile: false
 
 <a class="anchor" id="0"></a>
 
-# **Logistic Regression Classifier Tutorial with Python**
+# **Python을 사용한 로지스틱 회귀 분류기 자습서**
 
 
-
-
-
-Hello friends,
-
-
-
-
-
-In this kernel, I implement Logistic Regression with Python and Scikit-Learn. I build a Logistic Regression classifier to predict whether or not it will rain tomorrow in Australia. I train a binary classification model using Logistic Regression. 
-
-
-**As always, I hope you find this kernel useful and your <font color="red"><b>UPVOTES</b></font> would be highly appreciated**.
-
-
+이 커널에서는 파이썬과 Scikit-Learn으로 로지스틱 회귀를 구현합니다. 내일 호주에 비가 올지 여부를 예측하기 위해 로지스틱
+회귀 분류기를 구축합니다. 로지스틱 회귀를 사용하여 이진 분류 모델을 훈련합니다.
 
 <a class="anchor" id="0.1"></a>
 
-# **Table of Contents**
+# **목차**
 
 
 
 
 
-1.	[Introduction to Logistic Regression](#1)
+1.	[로지스틱 회귀 소개](#1)
 
-2.	[Logistic Regression intuition](#2)
+2.	[로지스틱 회귀 직관](#2)
 
-3.	[Assumptions of Logistic Regression](#3)
+3.	[스틱 회귀의 가정](#3)
 
-4.	[Types of Logistic Regression](#4)
+4.	[로지스틱 회귀의 유형](#4)
 
-5.	[Import libraries](#5)
+5.	[라이브러리 가져오기](#5)
 
-6.	[Import dataset](#6)
+6.	[데이터 세트 가져오기](#6)
 
-7.	[Exploratory data analysis](#7)
+7.	[탐색적 데이터 분석](#7)
 
-8.	[Declare feature vector and target variable](#8)
+8.	[특징 벡터 및 대상 변수 선언](#8)
 
-9.	[Split data into separate training and test set](#9)
+9.	[데이터를 별도의 학습 및 테스트 집합으로 분할](#9)
 
-10.	[Feature engineering](#10)
+10.	[기능 엔지니어링](#10)
 
-11.	[Feature scaling](#11)
+11.	[기능 확장](#11)
 
-12.	[Model training](#12)
+12.	[모델 훈](#12)
 
-13.	[Predict results](#13)
+13.	[결과 예측](#13)
 
-14.	[Check accuracy score](#14)
+14.	[정확도 점수 확인](#14)
 
-15.	[Confusion matrix](#15)
+15.	[혼동 매트릭스](#15)
 
-16.	[Classification metrices](#16)
+16.	[분류 메트릭](#16)
 
-17.	[Adjusting the threshold level](#17)
+17.	[임계값 수준 조정하기](#17)
 
 18.	[ROC - AUC](#18)
 
-19.	[k-Fold Cross Validation](#19)
+19.	[K- 교차 검증](#19)
 
-20.	[Hyperparameter optimization using GridSearch CV](#20)
+20.	[GridSearch CV를 사용한 하이퍼파라미터 최적화](#20)
 
-21.	[Results and conclusion](#21)
+21.	[결과 및 결론](#21)
 
-22. [References](#22)
-
-
-
-# **1. Introduction to Logistic Regression** <a class="anchor" id="1"></a>
+22. [참조](#22)
 
 
 
-
-
-[Table of Contents](#0.1)
+# **1. 로지스틱 회귀 소개** <a class="anchor" id="1"></a>
 
 
 
 
 
-When data scientists may come across a new classification problem, the first algorithm that may come across their mind is **Logistic Regression**. It is a supervised learning classification algorithm which is used to predict observations to a discrete set of classes. Practically, it is used to classify observations into different categories. Hence, its output is discrete in nature. **Logistic Regression** is also called **Logit Regression**. It is one of the most simple, straightforward and versatile classification algorithms which is used to solve classification problems.
-
-
-# **2. Logistic Regression intuition** <a class="anchor" id="2"></a>
+[목차](#0.1)
 
 
 
 
 
-[Table of Contents](#0.1)
+데이터 과학자가 새로운 분류 문제를 접할 때 가장 먼저 떠오르는 알고리즘은 **로지스틱 회귀**입니다. 로지스틱 회귀는 지도 학
+습 분류 알고리즘으로, 관측값을 불연속적인 클래스 집합으로 예측하는 데 사용됩니다. 실제로는 관측값을 여러 범주로 분류
+하는 데 사용됩니다. 따라서 그 출력은 본질적으로 불연속적입니다. **Logistic Regression**는 **Logit Regression**라고도 합니다. 분류 문제
+를 해결하는 데 사용되는 가장 간단하고 간단하며 다재다능한 분류 알고리즘 중 하나입니다.
+
+
+
+# **2. 로지스틱 회귀 직관** <a class="anchor" id="2"></a>
 
 
 
 
 
-In statistics, the **Logistic Regression model** is a widely used statistical model which is primarily used for classification purposes. It means that given a set of observations, Logistic Regression algorithm helps us to classify these observations into two or more discrete classes. So, the target variable is discrete in nature.
+[목차](#0.1)
 
 
 
 
 
-The Logistic Regression algorithm works as follows -
-
-
-## **Implement linear equation**
-
-
+통계학에서 **로지스틱 회귀 모델**은 주로 분류 목적으로 널리 사용되는 통계 모델입니다. 즉, 일련의 관측값이 주어지면 로지스
+틱 회귀 알고리즘을 통해 이러한 관측값을 두 개 이상의 불연속적인 클래스로 분류하는 데 도움이 됩니다. 따라서 대상
+변수는 본질적으로 이산형입니다.
+로지스틱 회귀 알고리즘은 다음과 같이 작동합니다.
 
 
 
-Logistic Regression algorithm works by implementing a linear equation with independent or explanatory variables to predict a response value. For example, we consider the example of number of hours studied and probability of passing the exam. Here, number of hours studied is the explanatory variable and it is denoted by x1. Probability of passing the exam is the response or target variable and it is denoted by z.
+## **선형 방정식 구현**
 
 
 
 
 
-If we have one explanatory variable (x1) and one response variable (z), then the linear equation would be given mathematically with the following equation-
+로지스틱 회귀 알고리즘은 독립 변수 또는 설명 변수로 선형 방정식을 구현하여 응답 값을 예측하는 방식으로 작동합니
+다. 예를 들어, 공부한 시간과 시험 합격 확률의 예를 생각해 보겠습니다. 여기서 공부한 시간은 설명 변수이며 x1로
+표시됩니다. 시험에 합격할 확률은 응답 또는 목표 변수이며 z로 표시됩니다.
+
+하나의 설명 변수(x1)와 하나의 반응 변수(z)가 있다면, 선형 방정식은 수학적으로 다음과 같은 식으로 주어집니다.
+
 
 
 
     z = β0 + β1x1    
 
 
-
-Here, the coefficients β0 and β1 are the parameters of the model.
-
-
-
-
-
-If there are multiple explanatory variables, then the above equation can be extended to
+여기서 계수 β0 및 β1은 모델의 매개 변수입니다.
+설명 변수가 여러 개 있는 경우 위의 방정식을 다음과 같이 확장할 수 있습니다.
 
 
 
     z = β0 + β1x1+ β2x2+……..+ βnxn
 
     
+여기서 계수 β0, β1, β2 및 βn은 모델의 매개 변수입니다.
 
-Here, the coefficients β0, β1, β2 and βn are the parameters of the model.
-
-
-
-So, the predicted response value is given by the above equations and is denoted by z.
+따라서 예측된 응답 값은 위의 방정식에 의해 주어지며 z로 표시됩니다.
 
 
-## **Sigmoid Function**
+## **시그모이드 함수**
+
+z로 표시되는 이 예측된 응답 값은 0과 1 사이의 확률 값으로 변환됩니다. 예측된 값을 확률 값에 매핑하기 위해 시그모이드 함수를 사용합니다. 그런 다음 이 시그모이드 함수는 모든 실제 값을 0과 1 사이의 확률 값으로 매핑합니다.
+
+머신 러닝에서 시그모이드 함수는 예측을 확률에 매핑하는 데 사용됩니다. 시그모이드 함수는 S자 모양의 곡선을 가지고 있습니다. 시그모이드 곡선이라고도 합니다.
+
+시그모이드 함수는 로지스틱 함수의 특수한 경우입니다. 다음 수학 공식에 의해 주어집니다.
+그래픽으로는 다음 그래프로 시그모이드 함수를 표현할 수 있습니다.
 
 
-
-This predicted response value, denoted by z is then converted into a probability value that lie between 0 and 1. We use the sigmoid function in order to map predicted values to probability values. This sigmoid function then maps any real value into a probability value between 0 and 1.
-
-
-
-In machine learning, sigmoid function is used to map predictions to probabilities. The sigmoid function has an S shaped curve. It is also called sigmoid curve.
-
-
-
-A Sigmoid function is a special case of the Logistic function. It is given by the following mathematical formula.
-
-
-
-Graphically, we can represent sigmoid function with the following graph.
-
-
-### Sigmoid Function
+### 시그모이드 함수
 
 
 
 ![Sigmoid Function](https://miro.medium.com/max/970/1*Xu7B5y9gp0iL5ooBj7LtWw.png)
 
 
-## **Decision boundary**
+## **의사 결정 경계**
 
 
 
-The sigmoid function returns a probability value between 0 and 1. This probability value is then mapped to a discrete class which is either “0” or “1”. In order to map this probability value to a discrete class (pass/fail, yes/no, true/false), we select a threshold value. This threshold value is called Decision boundary. Above this threshold value, we will map the probability values into class 1 and below which we will map values into class 0.
+시그모이드 함수는 0과 1 사이의 확률 값을 반환합니다. 이 확률 값은 "0" 또는 "1"인 불연속형 클래스에 매핑됩니다. 이 확률 값을 불연속형 클래스(합격/불합격, 예/아니오, 참/거짓)에 매핑하기 위해 임계값을 선택합니다. 이 임계값을 결정 경계라고 합니다. 이 임계값을 초과하면 확률 값을 클래스 1에 매핑하고 그 이하이면 값을 클래스 0에 매핑합니다.
 
-
-
-Mathematically, it can be expressed as follows:-
-
-
+수학적으로 다음과 같이 표현할 수 있습니다: 
 
 p ≥ 0.5 => class = 1
 
+p < 0.5 => class = 0
 
-
-p < 0.5 => class = 0 
-
-
-
-Generally, the decision boundary is set to 0.5. So, if the probability value is 0.8 (> 0.5), we will map this observation to class 1. Similarly, if the probability value is 0.2 (< 0.5), we will map this observation to class 0. This is represented in the graph below-
+일반적으로 결정 경계는 0.5로 설정됩니다. 따라서 확률 값이 0.8(> 0.5)이면 이 관측값을 클래스 1에 매핑합니다. 마찬가지로 확률 값이 0.2(<0.5)인 경우, 이 관측값을 클래스 0에 매핑합니다. 이는 아래 그래프에 표시됩니다.
 
 
 ![Decision boundary in sigmoid function](https://ml-cheatsheet.readthedocs.io/en/latest/_images/logistic_regression_sigmoid_w_threshold.png)
 
 
-## **Making predictions**
+## **예측하기**
 
 
 
-Now, we know about sigmoid function and decision boundary in logistic regression. We can use our knowledge of sigmoid function and decision boundary to write a prediction function. A prediction function in logistic regression returns the probability of the observation being positive, Yes or True. We call this as class 1 and it is denoted by P(class = 1). If the probability inches closer to one, then we will be more confident about our model that the observation is in class 1, otherwise it is in class 0.
+이제 로지스틱 회귀에서 시그모이드 함수와 결정 경계에 대해 알게 되었습니다. 시그모이드 함수와 결정 경계에 대한 지식을 사용하여 예측 함수를 작성할 수 있습니다.
+로지스틱 회귀의 예측 함수는 관측값이 양수일 확률, 즉 예 또는 참을 반환합니다.
+이를 클래스 1이라고 부르며 P(class = 1)로 표시됩니다.
+확률이 1에 가까워지면 관찰이 클래스 1에 속하고, 그렇지 않으면 클래스 0에 속한다고 모델에 대해 더 확신할 수 있습니다.
 
 
 
-# **3. Assumptions of Logistic Regression** <a class="anchor" id="3"></a>
+# **3. 로지스틱 회귀의 가정** <a class="anchor" id="3"></a>
 
 
 
 
 
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
+로지스틱 회귀 모델에는 몇 가지 주요 가정이 필요합니다. 이러한 가정은 다음과 같습니다.
 
+1. 로지스틱 회귀 모델에서는 종속 변수가 이진, 다항식 또는 서수여야 합니다.
 
-The Logistic Regression model requires several key assumptions. These are as follows:-
+2. 관찰이 서로 독립적이어야 합니다. 따라서 관측값은 반복된 측정에서 나온 것이 아니어야 합니다.
 
+3. 로지스틱 회귀 알고리즘은 독립 변수 간의 다중공선성이 거의 또는 전혀 필요하지 않습니다. 즉, 독립 변수가 서로 너무 높은 상관관계가 없어야 합니다.
 
+4. 로지스틱 회귀 모델은 독립 변수와 로그 확률의 선형성을 가정합니다.
 
-1. Logistic Regression model requires the dependent variable to be binary, multinomial or ordinal in nature.
+5. 로지스틱 회귀 모델의 성공 여부는 표본 크기에 따라 달라집니다. 일반적으로 높은 정확도를 달성하려면 큰 샘플 크기가 필요합니다.
 
 
+# **4. 로지스틱 회귀의 유형** <a class="anchor" id="4"></a>
 
-2. It requires the observations to be independent of each other. So, the observations should not come from repeated measurements.
 
 
+[목차](#0.1)
 
-3. Logistic Regression algorithm requires little or no multicollinearity among the independent variables. It means that the independent variables should not be too highly correlated with each other.
 
+로지스틱 회귀 모델은 대상 변수 범주에 따라 세 가지 그룹으로 분류할 수 있습니다. 이 세 그룹은 다음과 같이 설명됩니다.
 
 
-4. Logistic Regression model assumes linearity of independent variables and log odds.
+### 1. 이진 로지스틱 회귀
 
 
+이원 로지스틱 회귀에서 대상 변수에는 두 가지 가능한 범주가 있습니다. 범주의 일반적인 예로는 예 또는 아니오, 좋음 또는 나쁨, 참 또는 거짓, 스팸 또는 스팸 없음, 합격 또는 불합격이 있습니다.
 
-5. The success of Logistic Regression model depends on the sample sizes. Typically, it requires a large sample size to achieve the high accuracy.
 
 
-# **4. Types of Logistic Regression** <a class="anchor" id="4"></a>
+### 2. 다항 로지스틱 회귀
 
 
+다항 로지스틱 회귀에서 대상 변수에는 특정 순서가 아닌 세 개 이상의 범주가 있습니다. 따라서 세 개 이상의 명목 범주가 있습니다. 예를 들어 사과, 망고, 오렌지, 바나나 등 과일 카테고리의 유형이 있습니다.
 
 
+### 3. 서수 로지스틱 회귀
 
-[Table of Contents](#0.1)
 
+서수 로지스틱 회귀에서 대상 변수에는 세 개 이상의 서수 범주가 있습니다. 따라서 범주에는 내재적 순서가 있습니다. 예를들어, 학생의 성적을 나쁨, 보통, 좋음, 우수로 분류할 수 있습니다.
 
 
+# **5. 라이브러리 가져오기** <a class="anchor" id="5"></a>
 
 
-Logistic Regression model can be classified into three groups based on the target variable categories. These three groups are described below:-
 
 
 
-### 1. Binary Logistic Regression
-
-
-
-In Binary Logistic Regression, the target variable has two possible categories. The common examples of categories are yes or no, good or bad, true or false, spam or no spam and pass or fail.
-
-
-
-
-
-### 2. Multinomial Logistic Regression
-
-
-
-In Multinomial Logistic Regression, the target variable has three or more categories which are not in any particular order. So, there are three or more nominal categories. The examples include the type of categories of fruits - apple, mango, orange and banana.
-
-
-
-
-
-### 3. Ordinal Logistic Regression
-
-
-
-In Ordinal Logistic Regression, the target variable has three or more ordinal categories. So, there is intrinsic order involved with the categories. For example, the student performance can be categorized as poor, average, good and excellent.
-
-
-
-# **5. Import libraries** <a class="anchor" id="5"></a>
-
-
-
-
-
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
 ```python
-# This Python 3 environment comes with many helpful analytics libraries installed
-# It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
-# For example, here's several helpful packages to load in 
+# 이 Python 3 환경에는 유용한 분석 라이브러리가 많이 설치되어 있습니다.
+# kaggle/python 도커 이미지로 정의됩니다: https://github.com/kaggle/docker--python
+# 예를 들어, 다음 로드할 수 있는 몇 가지 유용한 패키지입니다.
 
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-import matplotlib.pyplot as plt # data visualization
-import seaborn as sns # statistical data visualization
+import numpy as np # 선형 대수학
+import pandas as pd # 데이터 처리, CSV 파일 I/O(예: pd.read_csv)로 가져옵니다.
+import matplotlib.pyplot as plt # 데이터 시각
+import seaborn as sns # 통계 데이터 시각화
 %matplotlib inline
 
-# Input data files are available in the "../input/" directory.
-# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+# 입력 데이터 파일은 "../input/" 디렉터리에서 사용할 수 있습니다.
+# 예를 들어, 실행을 클릭하거나 Shift+Enter를 눌러 실행하면 13개 항목이 모두 나열됩니다.
 
 import os
 for dirname, _, filenames in os.walk('/kaggle/input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
 
-# Any results you write to the current directory are saved as output.
+# 현재 디렉터리에 작성한 모든 결과는 출력으로 저장됩니다.
 ```
 
 <pre>
@@ -412,13 +350,13 @@ import warnings
 warnings.filterwarnings('ignore')
 ```
 
-# **6. Import dataset** <a class="anchor" id="6"></a>
+# **6. 데이터 세트 가져오기** <a class="anchor" id="6"></a>
 
 
 
 
 
-[Table of Contents](#0.1)
+[목](#0.1)
 
 
 
@@ -428,19 +366,17 @@ data = '/kaggle/input/weather-dataset-rattle-package/weatherAUS.csv'
 df = pd.read_csv(data)
 ```
 
-# **7. Exploratory data analysis** <a class="anchor" id="7"></a>
+# **7. 탐색적 데이터 분석** <a class="anchor" id="7"></a>
 
 
 
 
 
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
-
-
-Now, I will explore the data to gain insights about the data. 
+이제 데이터를 탐색하여 데이터에 대한 인사이트를 얻겠습니다.
 
 
 
@@ -453,7 +389,7 @@ df.shape
 <pre>
 (142193, 24)
 </pre>
-We can see that there are 142193 instances and 24 variables in the data set.
+데이터 집합에 142193개의 인스턴스와 24개의 변수가 있음을 알 수 있습니다.
 
 
 
