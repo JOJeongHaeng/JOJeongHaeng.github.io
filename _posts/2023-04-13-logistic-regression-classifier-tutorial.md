@@ -4009,11 +4009,11 @@ X_train.head()
 </div>
 
 
-We can see that two additional variables `RainToday_0` and `RainToday_1` are created from `RainToday` variable.
+`RainToday`변수에 두 개의 추가 변수 RainToday_0 및 RainToday_1이 생성되었음을 알 수 있습니다.
 
 
 
-Now, I will create the `X_train` training set.
+이제 X_train 트레이닝 세트를 생성하겠습니다.
 
 
 
@@ -4198,7 +4198,7 @@ X_train.head()
 </div>
 
 
-Similarly, I will create the `X_test` testing set.
+마찬가지로 X_test 테스트 세트를 생성합니다.
 
 
 
@@ -4383,10 +4383,11 @@ X_test.head()
 </div>
 
 
-We now have training and testing set ready for model building. Before that, we should map all the feature variables onto the same scale. It is called `feature scaling`. I will do it as follows.
+
+이제 모델 구축을 위한 훈련과 테스트가 준비되었습니다. 그 전에 모든 특징 변수를 동일한 척도로 매핑해야 합니다. 이를 `피처 스케일링`이라고 합니다.
 
 
-# **11. Feature Scaling** <a class="anchor" id="11"></a>
+# **11. 기능 확장** <a class="anchor" id="11"></a>
 
 
 
@@ -4911,29 +4912,29 @@ X_train.describe()
 </div>
 
 
-We now have `X_train` dataset ready to be fed into the Logistic Regression classifier. I will do it as follows.
+이제 로지스틱 회귀 분류기에 X_train 데이터 집합을 입력할 준비가 되었습니다.
 
 
-# **12. Model training** <a class="anchor" id="12"></a>
+# **12. 모델 훈련** <a class="anchor" id="12"></a>
 
 
 
 
 
-[Table of Contents](#0.1)
+[목](#0.1)
 
 
 
 ```python
-# train a logistic regression model on the training set
+# 훈련 집합에서 로지스틱 회귀 모델 훈련하기
 from sklearn.linear_model import LogisticRegression
 
 
-# instantiate the model
+# 모델 인스턴스화
 logreg = LogisticRegression(solver='liblinear', random_state=0)
 
 
-# fit the model
+# 모델에 맞추기
 logreg.fit(X_train, y_train)
 ```
 
@@ -4944,13 +4945,13 @@ LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
                    random_state=0, solver='liblinear', tol=0.0001, verbose=0,
                    warm_start=False)
 </pre>
-# **13. Predict results** <a class="anchor" id="13"></a>
+# **13. 결과 예측** <a class="anchor" id="13"></a>
 
 
 
 
 
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
@@ -4969,16 +4970,17 @@ array(['No', 'No', 'No', ..., 'No', 'No', 'Yes'], dtype=object)
 
 
 
-**predict_proba** method gives the probabilities for the target variable(0 and 1) in this case, in array form.
+**predict_proba** 메서드는 이 경우 대상 변수(0과 1)에 대한 확률을 배열 형식으로 제공합니다.
 
 
+0은 비가 내리지 않을 확률을, 1은 비가 올 확률을 나타냅니다.
 
-`0 is for probability of no rain` and `1 is for probability of rain.`
+
 
 
 
 ```python
-# probability of getting output as 0 - no rain
+# 출력값이 0으로 나올 확률 - 비가 오지 않을 확률
 
 logreg.predict_proba(X_test)[:,0]
 ```
@@ -4989,7 +4991,7 @@ array([0.91382428, 0.83565645, 0.82033915, ..., 0.97674285, 0.79855098,
 </pre>
 
 ```python
-# probability of getting output as 1 - rain
+# p출력값이 1로 나올 확률 - 비가 올 확률
 
 logreg.predict_proba(X_test)[:,1]
 ```
@@ -4998,35 +5000,35 @@ logreg.predict_proba(X_test)[:,1]
 array([0.08617572, 0.16434355, 0.17966085, ..., 0.02325715, 0.20144902,
        0.69265839])
 </pre>
-# **14. Check accuracy score** <a class="anchor" id="14"></a>
+# **14. 정확도 점수 확인** <a class="anchor" id="14"></a>
 
 
 
 
 
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
 ```python
 from sklearn.metrics import accuracy_score
 
-print('Model accuracy score: {0:0.4f}'. format(accuracy_score(y_test, y_pred_test)))
+print('모델 정확도 점수: {0:0.4f}'. format(accuracy_score(y_test, y_pred_test)))
 ```
 
 <pre>
-Model accuracy score: 0.8502
+모델 정확도 점수: 0.8502
 </pre>
-Here, **y_test** are the true class labels and **y_pred_test** are the predicted class labels in the test-set.
+**y_test**는 실제 클래스 레이블이고 **y_pred_test**는 테스트 집합에서 예측된 클래스 레이블입니다.
 
 
-### Compare the train-set and test-set accuracy
+### 훈련 세트와 테스트 세트의 정확도 비교
 
 
 
 
 
-Now, I will compare the train-set and test-set accuracy to check for overfitting.
+이제 훈련 세트와 테스트 세트의 정확도를 비교하여 과적합 여부를 확인하겠습니다.
 
 
 
@@ -5047,12 +5049,12 @@ print('Training-set accuracy score: {0:0.4f}'. format(accuracy_score(y_train, y_
 <pre>
 Training-set accuracy score: 0.8476
 </pre>
-### Check for overfitting and underfitting
+### 과착용 및 과소착용 여부 확인
 
 
 
 ```python
-# print the scores on training and test set
+# 훈련 및 테스트 세트에 점수 인쇄하기
 
 print('Training set score: {:.4f}'.format(logreg.score(X_train, y_train)))
 
@@ -5063,15 +5065,14 @@ print('Test set score: {:.4f}'.format(logreg.score(X_test, y_test)))
 Training set score: 0.8476
 Test set score: 0.8502
 </pre>
-The training-set accuracy score is 0.8476 while the test-set accuracy to be 0.8501. These two values are quite comparable. So, there is no question of overfitting. 
+훈련 세트 정확도 점수는 0.8476이고 테스트 세트 정확도는 0.8501입니다. 이 두 값은 상당히 비슷합니다. 따라서 과적합에 대한 의문의 여지가 없습니다.
 
 
 
-In Logistic Regression, we use default value of C = 1. It provides good performance with approximately 85% accuracy on both the training and the test set. But the model performance on both the training and test set are very comparable. It is likely the case of underfitting. 
+로지스틱 회귀에서는 기본값인 C = 1을 사용합니다. 이 값은 훈련과 테스트 집합 모두에서 약 85%의 정확도로 우수한성능을 제공합니다. 그러나 훈련과 테스트 집합 모두에서 모델 성능은 매우 비슷합니다. 이는 과소 적합의 경우일 가능성이 높습니다.
 
 
-
-I will increase C and fit a more flexible model.
+C를 늘리고 더 유연한 모델을 적용하겠습니다.
 
 
 
@@ -5095,7 +5096,7 @@ LogisticRegression(C=100, class_weight=None, dual=False, fit_intercept=True,
 </pre>
 
 ```python
-# print the scores on training and test set
+# 교육 및 테스트 세트에 점수 인쇄하기
 
 print('Training set score: {:.4f}'.format(logreg100.score(X_train, y_train)))
 
@@ -5106,10 +5107,10 @@ print('Test set score: {:.4f}'.format(logreg100.score(X_test, y_test)))
 Training set score: 0.8478
 Test set score: 0.8505
 </pre>
-We can see that, C=100 results in higher test set accuracy and also a slightly increased training set accuracy. So, we can conclude that a more complex model should perform better.
+C=100이 테스트 세트 정확도를 높이고 훈련 세트 정확도도 약간 증가한다는 것을 알 수 있습니다. 따라서 더 복잡한 모델일수록 성능이 더 좋다는 결론을 내릴 수 있습니다.
 
 
-Now, I will investigate, what happens if we use more regularized model than the default value of C=1, by setting C=0.01.
+이제 C=0.01을 설정하여 기본값인 C=1보다 더 정규화된 모델을 사용하면 어떻게 되는지 살펴보겠습니다.
 
 
 
@@ -5133,7 +5134,7 @@ LogisticRegression(C=0.01, class_weight=None, dual=False, fit_intercept=True,
 </pre>
 
 ```python
-# print the scores on training and test set
+# 훈 및 테스트 세트에 점수 인쇄하기
 
 print('Training set score: {:.4f}'.format(logreg001.score(X_train, y_train)))
 
@@ -5144,25 +5145,25 @@ print('Test set score: {:.4f}'.format(logreg001.score(X_test, y_test)))
 Training set score: 0.8409
 Test set score: 0.8448
 </pre>
-So, if we use more regularized model by setting C=0.01, then both the training and test set accuracy decrease relatiev to the default parameters.
+따라서 C=0.01을 설정하여 보다 정규화된 모델을 사용하면 학습 및 테스트 세트 정확도가 모두 기본 매개변수에 비해 감소합니다.
 
 
-### Compare model accuracy with null accuracy
-
-
-
-
-
-So, the model accuracy is 0.8501. But, we cannot say that our model is very good based on the above accuracy. We must compare it with the **null accuracy**. Null accuracy is the accuracy that could be achieved by always predicting the most frequent class.
+### 모델 정확도와 null 정확도 비교
 
 
 
-So, we should first check the class distribution in the test set. 
+
+
+모델 정확도는 0.8501입니다. 하지만 위의 정확도만으로는 모델이 매우 우수하다고 말할 수 없습니다. **null accuracy** 와 비교해야합니다. Null accuracy는 항상 가장 빈번한 클래스를 예측함으로써 얻을 수 있는 정확도입니다.
+
+
+
+따라서 먼저 테스트 세트의 클래스 분포를 확인해야 합니다.
 
 
 
 ```python
-# check class distribution in test set
+# 스트 세트에서 클래스 분포 확인
 
 y_test.value_counts()
 ```
@@ -5172,7 +5173,7 @@ No     22067
 Yes     6372
 Name: RainTomorrow, dtype: int64
 </pre>
-We can see that the occurences of most frequent class is 22067. So, we can calculate null accuracy by dividing 22067 by total number of occurences.
+가장 빈번한 클래스의 발생 횟수가 22067회임을 알 수 있습니다. 따라서 22067을 총 발생 횟수로 나누면 null 정확도를 계산할 수 있습니다.
 
 
 
@@ -5187,22 +5188,14 @@ print('Null accuracy score: {0:0.4f}'. format(null_accuracy))
 <pre>
 Null accuracy score: 0.7759
 </pre>
-We can see that our model accuracy score is 0.8501 but null accuracy score is 0.7759. So, we can conclude that our Logistic Regression model is doing a very good job in predicting the class labels.
+모델 정확도 점수는 0.8501이지만 널 정확도 점수는 0.7759임을 알 수 있습니다. 따라서 로지스틱 회귀 모델이 클래스 레이블을 예측하는 데 매우 효과적이라는 결론을 내릴 수 있습니다
 
 
-Now, based on the above analysis we can conclude that our classification model accuracy is very good. Our model is doing a very good job in terms of predicting the class labels.
+이제 위의 분석을 바탕으로 분류 모델의 정확도가 매우 우수하다는 결론을 내릴 수 있습니다. 우리 모델은 클래스 레이블을 예측하는 측면에서 매우 잘 작동하고 있습니다.
 
+그러나 값의 기본 분포는 제공하지 않습니다. 또한 분류기가 어떤 유형의 오류를 범하고 있는지에 대해서도 알려주지 않습니다.
 
-
-
-
-But, it does not give the underlying distribution of values. Also, it does not tell anything about the type of errors our classifer is making. 
-
-
-
-
-
-We have another tool called `Confusion matrix` that comes to our rescue.
+Confusion matrix라는 또 다른 도구가 우리를 구해줄 것입니다.
 
 
 # **15. Confusion matrix** <a class="anchor" id="15"></a>
@@ -5211,37 +5204,15 @@ We have another tool called `Confusion matrix` that comes to our rescue.
 
 
 
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
 
 
-A confusion matrix is a tool for summarizing the performance of a classification algorithm. A confusion matrix will give us a clear picture of classification model performance and the types of errors produced by the model. It gives us a summary of correct and incorrect predictions broken down by each category. The summary is represented in a tabular form.
+혼동 행렬은 분류 알고리즘의 성능을 요약하는 도구입니다. 혼동 행렬을 통해 분류 모델의 성능과 모델에서 발생하는오류 유형을 명확하게 파악할 수 있습니다. 혼동 행렬은 각 범주별로 분류된 올바른 예측과 잘못된 예측에 대한 요약을 제공합니다. 요약은 표 형식으로 표시됩니다.
 
-
-
-
-
-Four types of outcomes are possible while evaluating a classification model performance. These four outcomes are described below:-
-
-
-
-
-
-**True Positives (TP)** – True Positives occur when we predict an observation belongs to a certain class and the observation actually belongs to that class.
-
-
-
-
-
-**True Negatives (TN)** – True Negatives occur when we predict an observation does not belong to a certain class and the observation actually does not belong to that class.
-
-
-
-
-
-**False Positives (FP)** – False Positives occur when we predict an observation belongs to a    certain class but the observation actually does not belong to that class. This type of error is called **Type I error.**
+분류 모델 성능을 평가하는 동안 네 가지 유형의 결과가 나올 수 있습니다. 이 네 가지 결과는 다음과 같이 설명됩니다.
 
 
 
@@ -5249,7 +5220,18 @@ Four types of outcomes are possible while evaluating a classification model perf
 
 
 
-**False Negatives (FN)** – False Negatives occur when we predict an observation does not belong to a certain class but the observation actually belongs to that class. This is a very serious error and it is called **Type II error.**
+
+**True Positives (TP)** – True Positives정탐은 관찰이 특정 클래스에 속할 것으로 예측하고 관찰이 실제로 해당 클래스에 속할 때 발생합니다.
+
+
+
+**True Negatives (TN)** – True Negatives는 관찰이 특정 클래스에 속하지 않는다고 예측했지만 실제로 관찰이 해당 클래스에 속하지 않을 때 발생합니다.
+
+
+
+
+
+**False Positives (FP)** – False Positives은 관찰이 특정 클래스에 속한다고 예측했지만 실제로는 해당 클래스에 속하지 않을 때 발생합니다. 이러한 유형의 오류를 유형 I 오류라고 합니다.
 
 
 
@@ -5257,7 +5239,15 @@ Four types of outcomes are possible while evaluating a classification model perf
 
 
 
-These four outcomes are summarized in a confusion matrix given below.
+**False Negatives (FN)** – False Negatives은 관찰이 특정 클래스에 속하지 않는다고 예측했지만 실제로는 해당 클래스에 속할 때 발생합니다. 이는 매우 심각한 오류이며 유형 II 오류라고 합니다.
+
+
+이 네 가지 결과는 아래 혼동 매트릭스에 요약되어 있습니다.
+
+
+
+
+
 
 
 
@@ -5294,13 +5284,13 @@ False Positives(FP) =  1175
 
 False Negatives(FN) =  3086
 </pre>
-The confusion matrix shows `20892 + 3285 = 24177 correct predictions` and `3087 + 1175 = 4262 incorrect predictions`.
+confusion matrix혼동 행렬은 20892 + 3285 = 24177 개의 올바른 예측과 3087 + 1175 = 4262 개의 잘못된 예측을 보여줍니다.
+
+
+이 경우에는 다음이 있습니다.
 
 
 
-
-
-In this case, we have
 
 
 
@@ -5329,7 +5319,7 @@ In this case, we have
 
 
 ```python
-# visualize confusion matrix with seaborn heatmap
+# 해상 히트맵으로 혼동 행렬 시각화
 
 cm_matrix = pd.DataFrame(data=cm, columns=['Actual Positive:1', 'Actual Negative:0'], 
                                  index=['Predict Positive:1', 'Predict Negative:0'])
@@ -5348,7 +5338,7 @@ sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu')
 
 
 
-[Table of Contents](#0.1)
+[목](#0.1)
 
 
 ## Classification Report
@@ -5357,11 +5347,11 @@ sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu')
 
 
 
-**Classification report** is another way to evaluate the classification model performance. It displays the  **precision**, **recall**, **f1** and **support** scores for the model. I have described these terms in later.
+**Classification report**는 분류 모델 성능을 평가하는 또 다른 방법입니다. 여기에는 모델의 정확도, 재검색, F1 및 지원 점수가 표시됩니다. 이러한 용어는 나중에 설명하겠습니다.
 
 
 
-We can print a classification report as follows:-
+다음과 같이 분류 보고서를 인쇄할 수 있습니다.
 
 
 
@@ -5420,27 +5410,21 @@ print('Classification error : {0:0.4f}'.format(classification_error))
 <pre>
 Classification error : 0.1498
 </pre>
-## Precision
+## 정밀도
 
 
 
 
 
-**Precision** can be defined as the percentage of correctly predicted positive outcomes out of all the predicted positive outcomes. It can be given as the ratio of true positives (TP) to the sum of true and false positives (TP + FP). 
+**정밀도**는 예측된 모든 양성 결과 중 올바르게 예측된 양성 결과의 비율로 정의할 수 있습니다. 정확도는 오탐과 미탐의 합계(TP + FP)에 대한 정탐(TP)의 비율로 나타낼 수 있습니다.
+따라서 정밀도는 정확하게 예측된 긍정적인 결과의 비율을 식별합니다. 부정적 클래스보다 긍정적 클래스에 더 관심이 있습니다.
+
+
+수학적으로 정밀도는 TP와 (TP + FP)의 비율로 정의할 수 있습니다.
 
 
 
 
-
-So, **Precision** identifies the proportion of correctly predicted positive outcome. It is more concerned with the positive class than the negative class.
-
-
-
-
-
-
-
-Mathematically, precision can be defined as the ratio of `TP to (TP + FP).`
 
 
 
@@ -5467,21 +5451,10 @@ Precision : 0.9468
 
 
 
-Recall can be defined as the percentage of correctly predicted positive outcomes out of all the actual positive outcomes.
+Recall은 모든 실제 긍정적인 결과 중 올바르게 예측된 긍정적인 결과의 비율로 정의할 수 있습니다. 이는 정탐(TP)과 오탐(TP+ FN)의 합에 대한 정탐(TP)의 비율로 나타낼 수 있습니다. 리콜은 민감도라고도 합니다.
 
-It can be given as the ratio of true positives (TP) to the sum of true positives and false negatives (TP + FN). **Recall** is also called **Sensitivity**.
-
-
-
-
-
-**Recall** identifies the proportion of correctly predicted actual positives.
-
-
-
-
-
-Mathematically, recall can be given as the ratio of `TP to (TP + FN).`
+리콜은 정확하게 예측된 실제 양성 반응의 비율을 나타냅니다. 수학적으로 리콜은 TP와 (TP + FN)의 비
+율로 나타낼 수 있습니다.
 
 
 
@@ -5555,12 +5528,7 @@ Specificity : 0.7366
 
 
 
-**f1-score** is the weighted harmonic mean of precision and recall. The best possible **f1-score** would be 1.0 and the worst 
-
-would be 0.0.  **f1-score** is the harmonic mean of precision and recall. So, **f1-score** is always lower than accuracy measures as they embed precision and recall into their computation. The weighted average of `f1-score` should be used to 
-
-compare classifier models, not global accuracy.
-
+**f1-score**는 정확도와 회수율의 가중치 조화 평균입니다. f1-score는 정확도와 회수율의 조화 평균으로, 최고값은 1.0이고 최저값은 0.0입니다. 따라서 f1-score는 정확도 측정값보다 항상 낮으며, 정확도와 재인용률을 계산에 포함하기 때문입니다. 분류기 모델을 비교할 때는 글로벌 정확도가 아닌 f1-score의 가중 평균을 사용해야 합니다.
 
 
 
@@ -5571,10 +5539,10 @@ compare classifier models, not global accuracy.
 
 
 
-**Support** is the actual number of occurrences of the class in our dataset.
+**Support**는 데이터 세트에서 클래스의 실제 발생 횟수입니다.
 
 
-# **17. Adjusting the threshold level** <a class="anchor" id="17"></a>
+# **17. 임계값 수준 조정하기** <a class="anchor" id="17"></a>
 
 
 
@@ -5610,31 +5578,31 @@ array([[0.91382428, 0.08617572],
 
 
 
-- In each row, the numbers sum to 1.
+- 각 행에서 숫자의 합계는 1이 됩니다.
 
 
 
 
 
-- There are 2 columns which correspond to 2 classes - 0 and 1.
+- 0과 1의 두 가지 클래스에 해당하는 2개의 열이 있습니다.
 
 
 
-    - Class 0 - predicted probability that there is no rain tomorrow.    
+    - Class 0 - 내일 비가 내리지 않을 것으로 예상되는 확률입니다.    
 
     
 
-    - Class 1 - predicted probability that there is rain tomorrow.
+    - Class 1 - 내일 비가 올 것으로 예상되는 확률입니다.
 
         
 
     
 
-- Importance of predicted probabilities
+- 예측 확률의 중요성
 
 
 
-    - We can rank the observations by probability of rain or no rain.
+    - 비가 올 확률 또는 비가 오지 않을 확률에 따라 관측값의 순위를 매길 수 있습니다.
 
 
 
@@ -5644,11 +5612,11 @@ array([[0.91382428, 0.08617572],
 
 
 
-    - Predicts the probabilities    
+    - 확률 예측    
 
     
 
-    - Choose the class with the highest probability    
+    - 확률이 가장 높은 분류 임계값 수준의 클래스를 선택하세요   
 
     
 
@@ -5658,15 +5626,15 @@ array([[0.91382428, 0.08617572],
 
 
 
-    - There is a classification threshold level of 0.5.    
+    - 분류 임계값 수준은 0.5입니다.  
 
     
 
-    - Class 1 - probability of rain is predicted if probability > 0.5.    
+    - Class 1 - 확률이 0.5를 초과할 경우 비가 내릴 것으로 예측됩니다.    
 
     
 
-    - Class 0 - probability of no rain is predicted if probability < 0.5.    
+    - Class 0 - 확률이 0.5 미만인 경우 비가 내리지 않을  예측됩니다.   
 
     
 
@@ -5761,7 +5729,7 @@ y_pred_prob_df
 
 
 ```python
-# print the first 10 predicted probabilities for class 1 - Probability of rain
+# class 1 - 비가 올 확률에 대한 처음 10개의 예측 확률을 인쇄합니다
 
 logreg.predict_proba(X_test)[0:10, 1]
 ```
@@ -5772,33 +5740,33 @@ array([0.08617572, 0.16434355, 0.17966085, 0.00974678, 0.04273289,
 </pre>
 
 ```python
-# store the predicted probabilities for class 1 - Probability of rain
+# 클래스 1에 대한 예측 확률 저장 - 비가 올 확률
 
 y_pred1 = logreg.predict_proba(X_test)[:, 1]
 ```
 
 
 ```python
-# plot histogram of predicted probabilities
+# 예측 확률 히스토그램 플롯
 
 
-# adjust the font size 
+# 글꼴 크기
 plt.rcParams['font.size'] = 12
 
 
-# plot histogram with 10 bins
+# 구간차원이 10개인 히스토그램 플롯
 plt.hist(y_pred1, bins = 10)
 
 
-# set the title of predicted probabilities
+# 예측 확률의 제목을 설정
 plt.title('Histogram of predicted probabilities of rain')
 
 
-# set the x-axis limit
+# X축 제한 설정
 plt.xlim(0,1)
 
 
-# set the title
+# 제목 설정
 plt.xlabel('Predicted probabilities of rain')
 plt.ylabel('Frequency')
 ```
@@ -5814,34 +5782,31 @@ Text(0, 0.5, 'Frequency')
 
 
 
-- We can see that the above histogram is highly positive skewed.
+- 위의 히스토그램이 매우 한쪽으로 치우쳐 있음을 알 수 있습니다.
 
 
 
 
 
-- The first column tell us that there are approximately 15000 observations with probability between 0.0 and 0.1.
+- 첫 번째 열은 0.0에서 0.1 사이의 확률로 약 15,000개의 관측값이 있음을 알려줍니다.
 
 
 
 
 
-- There are small number of observations with probability > 0.5.
+- 확률이 0.5를 초과하는 소수의 관측값이 있습니다.
 
 
 
 
 
-- So, these small number of observations predict that there will be rain tomorrow.
+- 따라서 이 소수의 관측 자료는 내일 비가 올 것이라고 예측합니다. 대다수의 관측은 내일 비가 내리지 않을 것이라고 예측합니다.
 
 
 
 
 
-- Majority of observations predict that there will be no rain tomorrow.
-
-
-### Lower the threshold
+### 임계값 낮추기
 
 
 
@@ -5967,31 +5932,31 @@ With 0.4 threshold the Confusion Matrix is
 
 
 
-- In binary problems, the threshold of 0.5 is used by default to convert predicted probabilities into class predictions.
+- 이진 문제에서는 기본적으로 임계값 0.5가 예측 확률을 클래스 예측으로 변환하는 데 사용됩니다.
 
 
 
 
 
-- Threshold can be adjusted to increase sensitivity or specificity. 
+- 임계값을 조정하여 민감도 또는 특이도를 높일 수 있습니다. 
 
 
 
 
 
-- Sensitivity and specificity have an inverse relationship. Increasing one would always decrease the other and vice versa.
+- 민감도와 특이도는 반비례 관계에 있습니다. 한쪽을 높이면 다른 쪽은 항상 낮아지고 그 반대의 경우도 마찬가지입니다.
 
 
 
 
 
-- We can see that increasing the threshold level results in increased accuracy.
+- 임계값 수준을 높이면 정확도가 높아진다는 것을 알 수 있습니다.
 
 
 
 
 
-- Adjusting the threshold level should be one of the last step you do in the model-building process.
+- 임계값 레벨을 조정하는 것은 모델 구축 프로세스의 마지막 단계 중 하나입니다.
 
 
 # **18. ROC - AUC** <a class="anchor" id="18"></a>
@@ -6000,7 +5965,7 @@ With 0.4 threshold the Confusion Matrix is
 
 
 
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
@@ -6008,49 +5973,26 @@ With 0.4 threshold the Confusion Matrix is
 
 
 
-## ROC Curve
+## ROC 곡선
 
 
 
 
 
-Another tool to measure the classification model performance visually is **ROC Curve**. ROC Curve stands for **Receiver Operating Characteristic Curve**. An **ROC Curve** is a plot which shows the performance of a classification model at various 
-
-classification threshold levels. 
-
+분류 모델 성능을 시각적으로 측정하는 또 다른 도구는 **ROC 곡선**입니다. ROC 곡선은 **Receiver Operating Characteristic Curve**의 약자입니다. **ROC Curve**는 다양한 분류 임계값 수준에서 분류 모델의 성능을 보여주는 도표입니다.
+ 
 
 
 
 
 
+ROC 곡선은 다양한 임계값 수준에서 오탐률(FPR)에 대한 진양성률(TPR)을 그래프로 표시합니다.
 
-The **ROC Curve** plots the **True Positive Rate (TPR)** against the **False Positive Rate (FPR)** at various threshold levels.
+**True Positive Rate (TPR)**(TPR)은 리콜이라고도 합니다. 이는 TP와 (TP + FN)의 비율로 정의됩니다.
 
+오탐률(FPR)은 FP와 (FP + TN)의 비율로 정의됩니다.
 
-
-
-
-
-
-**True Positive Rate (TPR)** is also called **Recall**. It is defined as the ratio of `TP to (TP + FN).`
-
-
-
-
-
-
-
-**False Positive Rate (FPR)** is defined as the ratio of `FP to (FP + TN).`
-
-
-
-
-
-
-
-
-
-In the ROC Curve, we will focus on the TPR (True Positive Rate) and FPR (False Positive Rate) of a single point. This will give us the general performance of the ROC curve which consists of the TPR and FPR at various threshold levels. So, an ROC Curve plots TPR vs FPR at different classification threshold levels. If we lower the threshold levels, it may result in more items being classified as positve. It will increase both True Positives (TP) and False Positives (FP).
+ROC 곡선에서는 단일 포인트의 TPR(진양성률)과 FPR(오탐률)에 초점을 맞출 것입니다. 이렇게 하면 다양한 임계값 수준에서 TPR과 FPR로 구성된 ROC 곡선의 일반적인 성능을 알 수 있습니다. 따라서 ROC 곡선은 다양한 분류 임계값 수준에서 TPR과 FPR을 그래프로 표시합니다. 임계값 수준을 낮추면 더 많은 항목이 양성으로 분류될 수 있습니다. 그러면 정탐(TP)과 오탐(FP)이 모두 증가합니다.
 
 
 
@@ -6083,7 +6025,7 @@ plt.show()
 
 <img src="data:image/png;base64,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"/>
 
-ROC curve help us to choose a threshold level that balances sensitivity and specificity for a particular context.
+ROC 곡선은 특정 컨텍스트에 대한 민감도와 특이도의 균형을 맞추는 임계값 수준을 선택하는 데 도움이 됩니다.
 
 
 ## ROC-AUC
@@ -6092,13 +6034,13 @@ ROC curve help us to choose a threshold level that balances sensitivity and spec
 
 
 
-**ROC AUC** stands for **Receiver Operating Characteristic - Area Under Curve**. It is a technique to compare classifier performance. In this technique, we measure the `area under the curve (AUC)`. A perfect classifier will have a ROC AUC equal to 1, whereas a purely random classifier will have a ROC AUC equal to 0.5. 
+**ROC AUC**은 **Receiver Operating Characteristic - Area Under Curve**의 약자입니다. 분류기 성능을 비교하는 기법입니다. 이 기법에서는 곡선 아래 면적(AUC)을 측정합니다. 완벽한 분류기는 ROC AUC가 1이 되는 반면, 순수 무작위 분류기는 ROCAUC가 0.5가 됩니다.
 
 
 
 
 
-So, **ROC AUC** is the percentage of the ROC plot that is underneath the curve.
+따라서 **ROC AUC**는 곡선 아래에 있는 ROC 플롯의 백분율입니다.
 
 
 
@@ -6121,11 +6063,11 @@ ROC AUC : 0.8729
 
 
 
-- ROC AUC is a single number summary of classifier performance. The higher the value, the better the classifier.
+- ROC AUC는 분류기 성능을 단일 수치로 요약한 것입니다. 값이 높을수록 분류기가 더 우수하다는 의미입니다.
 
 
+- 우리 모델의 ROC AUC는 1에 가까워졌습니다. 따라서 우리 분류기가 내일 비가 올지 안 올지를 예측하는 데 효과적이라는 결론을 내릴 수 있습니다.
 
-- ROC AUC of our model approaches towards 1. So, we can conclude that our classifier does a good job in predicting whether it will rain tomorrow or not.
 
 
 
@@ -6142,13 +6084,13 @@ print('Cross validated ROC AUC : {:.4f}'.format(Cross_validated_ROC_AUC))
 <pre>
 Cross validated ROC AUC : 0.8695
 </pre>
-# **19. k-Fold Cross Validation** <a class="anchor" id="19"></a>
+# **19. k-겹 교차 검증** <a class="anchor" id="19"></a>
 
 
 
 
 
-[Table of Contents](#0.1)
+[목차](#0.1)
 
 
 
@@ -6181,7 +6123,7 @@ Average cross-validation score: 0.8474
 Our, original model score is found to be 0.8476. The average cross-validation score is 0.8474. So, we can conclude that cross-validation does not result in performance improvement.
 
 
-# **20. Hyperparameter Optimization using GridSearch CV** <a class="anchor" id="20"></a>
+# **20. GridSearch CV를 사용한 하이퍼파라미터 최적화** <a class="anchor" id="20"></a>
 
 
 
@@ -6272,61 +6214,54 @@ GridSearch CV score on test set: 0.8507
 
 
 
-- Our original model test accuracy is 0.8501 while GridSearch CV accuracy is 0.8507.
+- 원래 모델 테스트 정확도는 0.8501이고 GridSearch CV 정확도는 0.8507입니다.
+
+
+
+
+- 이 특정 모델에 대해 GridSearch CV가 성능을 향상시킨다는 것을 알 수 있습니다.
+
+
+# **21. 결과 및 결론** <a class="anchor" id="21"></a>
 
 
 
 
 
-- We can see that GridSearch CV improve the performance for this particular model.
+[목차](#0.1)
 
 
-# **21. Results and conclusion** <a class="anchor" id="21"></a>
+1. 로지스틱 회귀 모델 정확도 점수는 0.8501입니다. 따라서 이 모델은 내일 호주에 비가 올지 여부를 예측하는 데 매우 효과적입니다.
 
 
-
-
-
-[Table of Contents](#0.1)
-
-
-1.	The logistic regression model accuracy score is 0.8501. So, the model does a very good job in predicting whether or not it will rain tomorrow in Australia.
+2. 소수의 관측소에서 내일 비가 올 것으로 예측합니다. 대다수의 관측은 내일 비가 내리지 않을 것으로 예측합니다.
 
 
 
-2.	Small number of observations predict that there will be rain tomorrow. Majority of observations predict that there will be no rain tomorrow.
+3. 이 모델에는 오버피팅의 흔적이 보이지 않습니다.
+
+
+4. C 값을 높이면 테스트 세트 정확도가 높아지고 훈련 세트 정확도도 약간 증가합니다. 따라서 더 복잡한 모델이 더 나은 성능을 발휘할 것이라는 결론을 내릴 수 있습니다.
+
+
+5. 임계값 레벨을 높이면 정확도가 높아집니다.
 
 
 
-3.	The model shows no signs of overfitting.
+6. 우리 모델의 ROC AUC는 1에 가까워졌습니다. 따라서 우리 분류기가 내일 비가 올지 안 올지를 예측하는 데 효과적이라는 결론을 내릴 수 있습니다.
 
 
-
-4.	Increasing the value of C results in higher test set accuracy and also a slightly increased training set accuracy. So, we can conclude that a more complex model should perform better.
-
+7. 원래 모델 정확도 점수는 0.8501점인 반면 RFECV 후 정확도 점수는 0.8500점입니다. 따라서 거의 비슷한 정확도를 얻을 수 있지만 기능 세트가 줄어듭니다.
 
 
-5.	Increasing the threshold level results in increased accuracy.
+8. 원래 모델에서는 FP = 1175이고 FP1 = 1174입니다. 따라서 거의 동일한 수의 오탐을 얻습니다. 또한 FN = 3087이고 FN1 = 3091입니다. 따라서 오탐이 약간 더 높습니다.
 
 
-
-6.	ROC AUC of our model approaches towards 1. So, we can conclude that our classifier does a good job in predicting whether it will rain tomorrow or not.
-
+9. 당사의 오리지널 모델 점수는 0.8476으로 확인되었습니다. 교차 검증 평균 점수는 0.8474입니다. 따라서 교차 검증이 성능 향상으로 이어지지 않는다는 결론을 내릴 수 있습니다.
 
 
-7.	Our original model accuracy score is 0.8501 whereas accuracy score after RFECV is 0.8500. So, we can obtain approximately similar accuracy but with reduced set of features.
-
-
-
-8.	In the original model, we have FP = 1175 whereas FP1 = 1174. So, we get approximately same number of false positives. Also, FN = 3087 whereas FN1 = 3091. So, we get slighly higher false negatives.
-
-
-
-9.	Our, original model score is found to be 0.8476. The average cross-validation score is 0.8474. So, we can conclude that cross-validation does not result in performance improvement.
-
-
-
-10.	Our original model test accuracy is 0.8501 while GridSearch CV accuracy is 0.8507. We can see that GridSearch CV improve the performance for this particular model.
+10. 원래 모델 테스트 정확도는 0.8501이고 GridSearch CV 정확도는 0.8507입니다. 이 특정 모델의 경우
+GridSearch CV가 성능을 향상시킨다는 것을 알 수 있습니다.
 
 
 
@@ -6336,7 +6271,7 @@ GridSearch CV score on test set: 0.8507
 
 
 
-[Table of Contents](#0.1)
+[](#0.1)
 
 
 
@@ -6344,7 +6279,7 @@ GridSearch CV score on test set: 0.8507
 
 
 
-The work done in this project is inspired from following books and websites:-
+이 프로젝트에서 수행한 작업은 다음 책과 웹사이트에서 영감을 받았습니다.-
 
 
 
