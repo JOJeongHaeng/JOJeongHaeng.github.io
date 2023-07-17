@@ -1,0 +1,127 @@
+---
+layout: single
+title:  "2023 C++ 학습하기"
+categories: coding
+toc: true
+author_profile: false
+---
+
+<head>
+  <style>
+    table.dataframe {
+      white-space: normal;
+      width: 100%;
+      height: 240px;
+      display: block;
+      overflow: auto;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      line-height: 20px;
+      text-align: center;
+      border: 0px !important;
+    }
+
+    table.dataframe th {
+      text-align: center;
+      font-weight: bold;
+      padding: 8px;
+    }
+
+    table.dataframe td {
+      text-align: center;
+      padding: 8px;
+    }
+
+    table.dataframe tr:hover {
+      background: #b8d1f3; 
+    }
+
+    .output_prompt {
+      overflow: auto;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      border-radius: 0.3rem;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.8rem;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font: 1rem Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      color: $code-text-color;
+      border: solid 1px $border-color;
+      border-radius: 0.3rem;
+      word-break: normal;
+      white-space: pre;
+    }
+
+  .dataframe tbody tr th:only-of-type {
+      vertical-align: middle;
+  }
+
+  .dataframe tbody tr th {
+      vertical-align: top;
+  }
+
+  .dataframe thead th {
+      text-align: center !important;
+      padding: 8px;
+  }
+
+  .page__content p {
+      margin: 0 0 0px !important;
+  }
+
+  .page__content p > strong {
+    font-size: 0.8rem !important;
+  }
+
+  </style>
+</head>
+
+### 동적 구조체 추가 설명
+
+* 04.8 포인터, 배열, 포인터연산 단원에서 new를 사용한 동적 구조체의 생성 부분이 있다.
+
+  구조체 또한 컴파일 시간보다 실행 시간에 배열을 생성하는 것이 훨씬 유리하다.
+
+  실행 시간에 프로그램이 요구하는 만큼의 구조체 공간을 정확히 대입받아야 한다.
+
+  new 연산자를 사용하여 동적 구조체를 생성할 수 있다.
+
+  동적이라는 말은 컴파일 시간이 아닌 실행 시간에 메모리를 대입받는다는 것을 뜻한다.
+
+  ```cpp
+  #include <iostream>
+  struct inflatable    // 구조체 정의
+  {
+    char name[20];
+    float volume;
+    double price;
+  };
+  int main()
+  {
+    using namespace std;
+    inflatable * ps = new inflatable;    // 구조체를 위한 메모리 대입
+    cout << "모형풍선의 이름을 입력하십시오: ";
+    cin.get(ps->name, 20)    // 멤버에 접근하는 방법 1
+    cout << "부피를 세제곱 피트 단위로 입력하십시오: ";
+    cin >> (*ps).volume;    // 멤버에 접근하는 방법 2
+    cout << "가격을 달러 단위로 입력하십시오: $";
+    cin >> ps->price;
+    cout << "이름: " << (*ps).name << endl;    // 방법 2
+    cout << "부피: " << ps->volume << " cubic feet\n";    // 방법 1
+    cout << "가격: $" << ps->price << endl;    // 방법 1
+    delete ps;    구조체가 사용한 메모리 해제
+    return 0;
+  }
+  ```
+
+  실행 중간에 new 연산자를 이용하여 메모리를 대입받는 것을 알 수 있다.
+
+### 자동 공간, 정적 공간, 동적 공간 추가 설명
+
+**자동 공간**
+
+자동 공간을 사용하는 함수 안에서 정의되는 보통의 변수들을 자동 변수라 한다.
+
+자동 공간은 자동 변수가 자신이 정의되어 있는 함수가 호출되는 순간에 자동으로 생겨나 함수가 종료되는 시점까지 존재하는 것을 뜻한다
+
